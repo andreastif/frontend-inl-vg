@@ -38,8 +38,6 @@ const renderProduct = (data) => {
 
 renderProduct(data);
 
-localStorage.clear;
-
 const addBtn = document.getElementById("addToCartBtn");
 addBtn.addEventListener("click", (e) => {
   //Vi hämtar vår cartArray (skapar ny om ej finns eller hämtar från localStorage)
