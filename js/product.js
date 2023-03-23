@@ -1,5 +1,12 @@
 "use strict";
 import { getProductById } from "./api.js";
+import {
+  getCartArrayFromLocalStorage,
+  saveCartArrayToLocalStorage,
+  saveCartObjectInCartArray,
+  removeObjectFromCartArray,
+  cartObject,
+} from "./cart.js";
 
 // Fetch Item From LocalStorage
 const productID = JSON.parse(localStorage.getItem("ID"));
@@ -18,12 +25,41 @@ const renderProduct = (data) => {
         <p class="my-5 lead fs-4"><strong>Description:</strong> ${data.description}</p>
         <p class="my-5 lead fs-4"><strong>Price: </strong> ${data.price} $</p>
         <p class="my-5 lead fs-4"><strong>Rating:</strong> ${data.rating.rate}/5 (${data.rating.count} votes)</p>
-        <a href="/checkout.html" class="my-3 w-100 btn btn-lg btn-dark"> 
+        <div id="addToCartBtn" class="my-3 w-100 btn btn-lg btn-dark"> 
           Add to cart
-        </a>
+        </div>
+        <div id="removeFromCartBtn" class="my-3 w-100 btn btn-lg btn-dark"> 
+        Remove From Cart
+        </div>
         `;
 
   specificProductDiv.innerHTML = htmlContent;
 };
 
 renderProduct(data);
+
+localStorage.clear;
+
+const addBtn = document.getElementById("addToCartBtn");
+addBtn.addEventListener("click", (e) => {
+  //Vi hämtar vår cartArray (skapar ny om ej finns eller hämtar från localStorage)
+  const cartArray = getCartArrayFromLocalStorage();
+  //Vi populerar med den produkts id nyckel, som vi vill köpa
+  cartObject.id = data.id;
+  //Vi anropar vår hjälpmetod som kontrollerar ifall det finns ett objekt eller inte i vår cart
+  const cartArray2 = saveCartObjectInCartArray(cartObject, cartArray);
+  //Vi sparar vår uppdaterade cart till localStorage
+  saveCartArrayToLocalStorage(cartArray2);
+});
+
+const removeBtn = document.getElementById("removeFromCartBtn");
+removeBtn.addEventListener("click", (e) => {
+  //Vi hämtar vår cartArray (skapar ny om ej finns eller hämtar från localStorage)
+  const cartArray = getCartArrayFromLocalStorage();
+  //Vi populerar med den produkts id nyckel, som vi vill köpa
+  cartObject.id = data.id;
+  //Vi anropar vår hjälpmetod som kontrollerar ifall det finns ett objekt eller inte i vår cart
+  const cartArray2 = removeObjectFromCartArray(cartObject, cartArray);
+  //Vi sparar vår uppdaterade cart till localStorage
+  saveCartArrayToLocalStorage(cartArray2);
+});

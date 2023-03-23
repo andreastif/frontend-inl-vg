@@ -35,7 +35,7 @@ const renderCards = (prodList) => {
   });
 
   const productsDiv = document.querySelector(".products");
-  console.log(productsDiv);
+
   productsDiv.innerHTML = html;
 };
 
@@ -47,7 +47,6 @@ const showMoreBtn = document.querySelectorAll(".save-id");
 
 showMoreBtn.forEach((element) => {
   const itemId = element.id;
-  console.log(itemId);
 
   // Save id for later use in LocalStorage
   element.addEventListener("click", () => {
