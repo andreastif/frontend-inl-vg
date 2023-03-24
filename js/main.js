@@ -1,6 +1,9 @@
 "use strict";
 import { getProducts, getAllProducts } from "./api.js";
 
+import { displayCartContents } from "./localStorage.js";
+displayCartContents();
+
 // const data = await getProducts(30);
 const data = await getAllProducts();
 

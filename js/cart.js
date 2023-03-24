@@ -1,53 +1,50 @@
-export let cartObject = {
-  id: null,
-  amount: null,
+"use strict";
+import {
+  saveCartObjectInCartArray,
+  removeObjectFromCartArray,
+  displayCartContents,
+  getCartArrayFromLocalStorage,
+} from "./localStorage.js";
+displayCartContents();
+
+// Fetch Item From LocalStorage
+const productList = getCartArrayFromLocalStorage();
+
+const renderProduct = (productList) => {
+  // Ändra InnerHTML efter products värden
+  //   const specificProductDiv = document.querySelector("#cart-product");
+  const specificProductDiv = document.querySelector("#cart-main");
+
+  for (let i = 0; i < productList.length; i++) {
+    console.log("hello from cart.js");
+    console.log(productList);
+
+    const cartObject = productList[i];
+
+    const cartObjectDiv = document.createElement("div");
+
+    cartObjectDiv.textContent = `id: ${cartObject.id}, amount: ${cartObject.amount}`;
+
+    specificProductDiv.appendChild(cartObjectDiv);
+  }
 };
 
-//Hämtar cartArray från localStorage (READ/CREATE)
-export function getCartArrayFromLocalStorage() {
-  if (localStorage.getItem("cartArray") != null) {
-    return JSON.parse(localStorage.getItem("cartArray"));
-  } else {
-    const cartArray = [];
-    return cartArray;
-  }
-}
+renderProduct(productList);
 
-//Sparar cartArray till localStorage (UPDATE)
-export function saveCartArrayToLocalStorage(cartArray) {
-  localStorage.setItem("cartArray", JSON.stringify(cartArray));
-}
+// const addBtn = document.getElementById("addToCartBtn");
+// addBtn.addEventListener("click", () => {
+//   //Vi populerar med den produkts id nyckel, som vi vill köpa
+//   cartObject.id = data.id;
+//   //Vi anropar vår hjälpmetod som kontrollerar ifall det finns ett objekt eller inte i vår cart
+//   saveCartObjectInCartArray(cartObject);
+//   renderProduct(data);
+// });
 
-//Tar bort ett cartObject från cartArray (DELETE)
-export function removeObjectFromCartArray(cartObject, cartArray) {
-  if (cartArray.find((cartobj) => cartobj.id === cartObject.id) != undefined) {
-    if (cartArray.find((cartobj) => cartobj.id === cartObject.id).amount > 0) {
-      cartArray.find((cartobj) => cartobj.id === cartObject.id).amount -= 1;
-      return cartArray;
-    } else {
-      const index = cartArray.findIndex((ele) => ele.id === cartObject.id);
-      if (index === 0) {
-        cartArray.shift();
-      } else {
-        cartArray.splice(index, index);
-      }
-      return cartArray;
-    }
-  } else {
-    return cartArray;
-  }
-}
-
-//Sparar cartObject i cartArray (UPDATE ARRAY) och returnerar arrayen
-export function saveCartObjectInCartArray(cartObject, cartArray) {
-  if (cartArray.find((cartobj) => cartobj.id === cartObject.id) != undefined) {
-    console.log("You should add the object with amount +1");
-    cartArray.find((cartobj) => cartobj.id === cartObject.id).amount += 1;
-    return cartArray;
-  } else {
-    console.log("You should add the object with amount 1");
-    cartObject.amount = 1;
-    cartArray.push(cartObject);
-    return cartArray;
-  }
-}
+// const removeBtn = document.getElementById("removeFromCartBtn");
+// removeBtn.addEventListener("click", () => {
+//   //Vi populerar med den produkts id nyckel, som vi vill köpa
+//   cartObject.id = data.id;
+//   //Vi anropar vår hjälpmetod som kontrollerar ifall det finns ett objekt eller inte i vår cart
+//   removeObjectFromCartArray(cartObject);
+//   renderProduct(data);
+// });

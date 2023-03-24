@@ -26,8 +26,9 @@
 
     <!-- Custom styles for this template -->
     <link href="css/style.css" rel="stylesheet" />
+    <link href="css/cartStyling.css" rel="stylesheet" />
   </head>
-  <body>
+  <body class="bg-light">
     <svg xmlns="http://www.w3.org/2000/svg" style="display: none">
       <symbol id="check" viewBox="0 0 16 16">
         <title>Check</title>
@@ -37,37 +38,31 @@
       </symbol>
     </svg>
 
-    <div class="container py-3">
-      <header>
-        <div
-          class="d-flex flex-column flex-md-row align-items-center pb-3 mb-4 border-bottom"
+    <nav
+      class="navbar bg-light d-flex flex-column flex-md-row align-items-center px-5 mb-4 border-bottom sticky-top"
+    >
+      <a
+        href="/index.html"
+        class="d-flex align-items-center text-dark text-decoration-none"
+      >
+        <span class="fs-4 title">Webshop</span>
+      </a>
+
+      <div class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
+        <a class="me-3 py-2 text-dark text-decoration-none" href="/index.html"
+          >Products</a
         >
-          <a
-            href="/index.html"
-            class="d-flex align-items-center text-dark text-decoration-none"
-          >
-            <span class="fs-4 title">Webshop</span>
-          </a>
-
-          <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
-            <a
-              class="me-3 py-2 text-dark text-decoration-none"
-              href="/index.html"
-              >Products</a
-            >
-            <a
-              class="me-3 py-2 text-dark text-decoration-none"
-              href="/contact.html"
-              >Contact</a
-            >
-            <a
-              class="me-3 py-2 text-dark text-decoration-none"
-              href="/cart.html"
-              >Shopping Cart</a
-            >
-          </nav>
-        </div>
-
+        <a class="me-3 py-2 text-dark text-decoration-none" href="/contact.html"
+          >Contact</a
+        >
+        <a href="/cart.html" style="color: inherit; padding-top: 10px">
+          <i class="fa-solid fa-cart-shopping"></i>
+          <span class="badge badge-warning" id="lblCartCount"></span>
+        </a>
+      </div>
+    </nav>
+    <div class="container py-3">
+      <main>
         <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
           <h1 class="display-4 fw-normal">Webshop</h1>
           <p class="fs-5 text-muted lead">
@@ -75,9 +70,6 @@
             assortment of various products from all around the world.
           </p>
         </div>
-      </header>
-
-      <main>
         <div class="row row-cols-1 row-cols-md-3 mb-3 text-center products">
           <!-- Added by api -->
         </div>
