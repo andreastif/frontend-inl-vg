@@ -9,3 +9,5 @@ Frontend inl vg del
 - Uppdaterad färgskala
 - tillägg av cart.js och import av script därså är relevant
 - tilläg av cart.html
+
+Todo: möjliggör add/remove på enskild id med onClick i cart.js
