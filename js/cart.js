@@ -1,11 +1,10 @@
 "use strict";
-import { getProducts, getAllProducts, getProductById } from "./api.js";
+import { getProductById } from "./api.js";
 import {
   saveCartObjectInCartArray,
   removeObjectFromCartArray,
   displayCartContents,
   getCartArrayFromLocalStorage,
-  cartObject,
 } from "./localStorage.js";
 displayCartContents();
 
@@ -19,60 +18,98 @@ async function renderProduct(cartArray) {
   const specificProductDiv = document.querySelector("#cart-main");
   let sum = 0;
 
-  for (let i = 0; i < cartArray.length; i++) {
-    const cartObject = cartArray[i];
-    const fakeStoreProduct = await getProductById(cartObject.id);
-    sum += fakeStoreProduct.price * cartObject.amount;
+  const myProducts = [];
 
-    const cartObjectDiv = document.createElement("div");
+  for (let myProduct of cartArray) {
+    const product = await getProductById(myProduct.id);
+    myProducts.push({
+      ...product,
+      amount: myProduct.amount,
+    });
+  }
 
-    console.log(fakeStoreProduct);
+  myProducts.forEach((fakeStoreProduct) => {
+    sum += fakeStoreProduct.price * fakeStoreProduct.amount;
 
-    console.log(sum);
-    cartObjectDiv.innerHTML = `
+    let cartObjectDivIdElement = document.querySelector(
+      `#cartObjectDivId-${fakeStoreProduct.id}`
+    );
+    if (!cartObjectDivIdElement) {
+      cartObjectDivIdElement = document.createElement("div");
+      cartObjectDivIdElement.setAttribute(
+        "id",
+        `cartObjectDivId-${fakeStoreProduct.id}`
+      );
+    }
+
+    cartObjectDivIdElement.innerHTML = `
     <div class="container">
       <div class="row"> 
-        <p class="col-2"> # ${cartObject.amount}</p>
-        <p class="col-2"> ${fakeStoreProduct.price * cartObject.amount} $</p>
-        <h6 class="col-2"> Product ${fakeStoreProduct.title}</h6>
-        <a class="col-3 btn" id="plusBtn" onClick="addObject();" style="font-size: 1.4rem;"> + </a>
-        <a class="col-3 btn" id="minusBtn" onClick="removeObject();" style="font-size: 1.4rem;"> - </a>
+      <h6 class="col-2"> ${fakeStoreProduct.title}</h6>
+      <p class="col-2"> ${fakeStoreProduct.price}$</p>
+        <p class="col-2"> # ${fakeStoreProduct.amount}</p>
+        <p class="col-2"> ${Math.trunc(
+          fakeStoreProduct.price * fakeStoreProduct.amount
+        )}$</p>
+        
+      
+        <button class="col-2 btn" id="plusBtn" style="font-size: 1.4rem;"> + </button>
+        <button class="col-2 btn" id="minusBtn" style="font-size: 1.4rem;"> - </button>
       </div>
     </div>
     `;
 
-    specificProductDiv.appendChild(cartObjectDiv);
+    const plusBtnElement = cartObjectDivIdElement.querySelector("#plusBtn");
+    plusBtnElement.addEventListener("click", () =>
+      addObject({
+        id: fakeStoreProduct.id,
+        amount: fakeStoreProduct.amount,
+      })
+    );
+
+    const minusBtnElement = cartObjectDivIdElement.querySelector("#minusBtn");
+    minusBtnElement.addEventListener("click", () =>
+      removeObject({
+        id: fakeStoreProduct.id,
+        amount: fakeStoreProduct.amount,
+      })
+    );
+
+    specificProductDiv.appendChild(cartObjectDivIdElement);
+  });
+
+  let sumObjDivIdElement = document.querySelector("#sumObjDivId");
+  if (!sumObjDivIdElement) {
+    sumObjDivIdElement = document.createElement("div");
+    sumObjDivIdElement.setAttribute("id", "sumObjDivId");
   }
 
-  const sumObjDiv = document.createElement("div");
-  sumObjDiv.innerHTML = `
+  sumObjDivIdElement.innerHTML = `
   <div class="container mt-5">
     <div class="row">
       <h5 class="col"> Total price tag: ${Math.trunc(sum)} $ </h5>
     </div>
   </div>
   `;
-  specificProductDiv.appendChild(sumObjDiv);
+  specificProductDiv.appendChild(sumObjDivIdElement);
 }
 
 renderProduct(cartArray);
 
-// const addBtn = document.getElementById("plusBtn");
-// addBtn.addEventListener("click",
-
 function addObject(cartObject) {
-  //Vi populerar med den produkts id nyckel, som vi vill köpa
-
   //Vi anropar vår hjälpmetod som kontrollerar ifall det finns ett objekt eller inte i vår cart
   saveCartObjectInCartArray(cartObject);
+  const cartArray = getCartArrayFromLocalStorage();
+  renderProduct(cartArray);
 }
 
-// const removeBtn = document.getElementById("minusBtn");
-// removeBtn.addEventListener("click");
-
 function removeObject(cartObject) {
-  //Vi populerar med den produkts id nyckel, som vi vill köpa
-
   //Vi anropar vår hjälpmetod som kontrollerar ifall det finns ett objekt eller inte i vår cart
   removeObjectFromCartArray(cartObject);
+  const cartArray = getCartArrayFromLocalStorage();
+  if (!cartArray.find((cartItem) => cartItem.id === cartObject.id)) {
+    const asd = document.getElementById(`cartObjectDivId-${cartObject.id}`);
+    asd.remove();
+  }
+  renderProduct(cartArray);
 }
