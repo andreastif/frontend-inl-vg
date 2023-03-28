@@ -3,6 +3,7 @@ import { getProductById } from "./api.js";
 import {
   saveCartObjectInCartArray,
   removeObjectFromCartArray,
+  removeAllObjectsFromCartArray,
   displayCartContents,
   getCartArrayFromLocalStorage,
 } from "./localStorage.js";
@@ -46,13 +47,10 @@ async function renderProduct(cartArray) {
     <div class="container">
       <div class="row"> 
       <h6 class="col-2"> ${fakeStoreProduct.title}</h6>
-      <p class="col-2"> ${fakeStoreProduct.price}$</p>
         <p class="col-2"> # ${fakeStoreProduct.amount}</p>
-        <p class="col-2"> ${Math.trunc(
+        <p class="col-2"> ${(
           fakeStoreProduct.price * fakeStoreProduct.amount
-        )}$</p>
-        
-      
+        ).toFixed(2)}$</p>
         <button class="col-2 btn" id="plusBtn" style="font-size: 1.4rem;"> + </button>
         <button class="col-2 btn" id="minusBtn" style="font-size: 1.4rem;"> - </button>
       </div>
@@ -87,29 +85,48 @@ async function renderProduct(cartArray) {
   sumObjDivIdElement.innerHTML = `
   <div class="container mt-5">
     <div class="row">
-      <h5 class="col"> Total price tag: ${Math.trunc(sum)} $ </h5>
+      <h5 class="col"> Total: ${sum.toFixed(2)} $ </h5>
+      <a class="col btn btn-success" href="checkout.html" style="font-size: 1.4rem;"> Proceed to Checkout </a>
+      <button class="col btn btn-danger" id="removeAll" style="font-size: 1.4rem;"> Remove All </button>
     </div>
   </div>
   `;
   specificProductDiv.appendChild(sumObjDivIdElement);
+
+  const removeAllBtn = sumObjDivIdElement.querySelector("#removeAll");
+  removeAllBtn.addEventListener("click", () => removeAll());
 }
 
 renderProduct(cartArray);
 
 function addObject(cartObject) {
-  //Vi anropar vår hjälpmetod som kontrollerar ifall det finns ett objekt eller inte i vår cart
   saveCartObjectInCartArray(cartObject);
   const cartArray = getCartArrayFromLocalStorage();
   renderProduct(cartArray);
 }
 
 function removeObject(cartObject) {
-  //Vi anropar vår hjälpmetod som kontrollerar ifall det finns ett objekt eller inte i vår cart
   removeObjectFromCartArray(cartObject);
   const cartArray = getCartArrayFromLocalStorage();
   if (!cartArray.find((cartItem) => cartItem.id === cartObject.id)) {
-    const asd = document.getElementById(`cartObjectDivId-${cartObject.id}`);
-    asd.remove();
+    const containerCartObj = document.getElementById(
+      `cartObjectDivId-${cartObject.id}`
+    );
+    containerCartObj.remove();
   }
   renderProduct(cartArray);
+}
+
+function removeAll() {
+  const cartArray = getCartArrayFromLocalStorage();
+
+  cartArray.forEach((cartObject) => {
+    const containerCartObj = document.getElementById(
+      `cartObjectDivId-${cartObject.id}`
+    );
+    containerCartObj.remove();
+  });
+
+  removeAllObjectsFromCartArray();
+  renderProduct(getCartArrayFromLocalStorage());
 }

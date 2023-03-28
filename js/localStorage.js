@@ -42,6 +42,14 @@ export function removeObjectFromCartArray(cartObject) {
   }
 }
 
+//Tar bort alla objekt från cartArray (DELETE)
+export function removeAllObjectsFromCartArray() {
+  const cartArray = getCartArrayFromLocalStorage();
+  cartArray.length = 0;
+  saveCartArrayToLocalStorage(cartArray);
+  displayCartContents();
+}
+
 //Sparar cartObject i cartArray (UPDATE ARRAY) och returnerar arrayen
 export function saveCartObjectInCartArray(cartObject) {
   const cartArray = getCartArrayFromLocalStorage();
@@ -66,4 +74,13 @@ export function displayCartContents() {
     sum += cartArray[i].amount;
   }
   document.getElementById("lblCartCount").innerText = sum;
+}
+
+export function getTotalItemsInCart() {
+  const cartArray = getCartArrayFromLocalStorage();
+  let sum = 0;
+  for (let i = 0; i < cartArray.length; i++) {
+    sum += cartArray[i].amount;
+  }
+  return sum;
 }

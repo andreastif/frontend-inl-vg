@@ -10,4 +10,4 @@ Frontend inl vg del
 - tillägg av cart.js och import av script därså är relevant
 - tilläg av cart.html
 
-Todo: Ta bort allt ur cart
+Todo: confirmation page
