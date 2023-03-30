@@ -1,6 +1,7 @@
 # Frontend-inl
 
 Frontend inl vg del
+
 Ändringar från gruppinl delar:
 
 - Dynamisk cart (uppdaterar m antal)
