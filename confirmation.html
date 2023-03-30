@@ -30,6 +30,8 @@
 
     <!-- Custom styles for this template -->
     <link href="css/style.css" rel="stylesheet" />
+    <link href="css/style.css" rel="stylesheet" />
+    <link href="css/cartStyling.css" rel="stylesheet" />
   </head>
   <body class="bg-light">
     <svg xmlns="http://www.w3.org/2000/svg" style="display: none">
@@ -40,35 +42,34 @@
         />
       </symbol>
     </svg>
-
-    <nav
-      class="navbar bg-light d-flex flex-column flex-md-row align-items-center px-5 mb-4 border-bottom sticky-top"
-    >
-      <a
-        href="/index.html"
-        class="d-flex align-items-center text-dark text-decoration-none"
+    <div class="container">
+      <nav
+        class="navbar bg-light d-flex flex-column flex-md-row align-items-center px-5 mb-4 border-bottom sticky-top"
       >
-        <span class="fs-4 title">Webshop</span>
-      </a>
-
-      <div class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
-        <a class="me-3 py-2 text-dark text-decoration-none" href="/index.html"
-          >Products</a
+        <a
+          href="/index.html"
+          class="d-flex align-items-center text-dark text-decoration-none"
         >
-        <a class="me-3 py-2 text-dark text-decoration-none" href="/contact.html"
-          >Contact</a
-        >
-        <a href="/cart.html" style="color: inherit; padding-top: 10px">
-          <i class="fa-solid fa-cart-shopping"></i>
-          <span class="badge badge-warning" id="lblCartCount"></span>
+          <span class="fs-4 title">Webshop</span>
         </a>
-      </div>
-    </nav>
+  
+        <div class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
+          <a class="me-3 py-2 text-dark text-decoration-none" href="/index.html"
+            >Products</a
+          >
+  
+          <a href="/cart.html" style="color: inherit; padding-top: 10px">
+            <i class="fa-solid fa-cart-shopping"></i>
+            <span class="badge badge-warning" id="lblCartCount"></span>
+          </a>
+        </div>
+      </nav>
     <div class="container py-3">
       <main>
-        <div class="confirmation text-center"></div>
+        <div class="confirmation text-center">
+          <!-- Content inserted by Api -->
+        </div>
       </main>
-
       <footer class="pt-4 my-md-5 pt-md-5 border-top">
         <div class="row">
           <div class="col-12 col-md">

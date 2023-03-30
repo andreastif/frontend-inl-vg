@@ -15,10 +15,8 @@ const cartArray = getCartArrayFromLocalStorage();
 //async await med getProductId() import.
 async function renderProduct(cartArray) {
   // Ändra InnerHTML efter products värden
-  //   const specificProductDiv = document.querySelector("#cart-product");
-  const specificProductDiv = document.querySelector("#cart-main");
   let sum = 0;
-
+  const specificProductDiv = document.querySelector("#cart-main");
   const myProducts = [];
 
   for (let myProduct of cartArray) {
@@ -45,14 +43,29 @@ async function renderProduct(cartArray) {
 
     cartObjectDivIdElement.innerHTML = `
     <div class="container">
-      <div class="row"> 
-      <h6 class="col-2"> ${fakeStoreProduct.title}</h6>
-        <p class="col-2"> # ${fakeStoreProduct.amount}</p>
-        <p class="col-2"> ${(
-          fakeStoreProduct.price * fakeStoreProduct.amount
-        ).toFixed(2)}$</p>
-        <button class="col-2 btn" id="plusBtn" style="font-size: 1.4rem;"> + </button>
-        <button class="col-2 btn" id="minusBtn" style="font-size: 1.4rem;"> - </button>
+      <div class="row mt-2 center"> 
+        <div class="card" style="width: 18rem;">
+          <div class="my-3" id="cartObjImgContainer"> 
+            <img src="${
+              fakeStoreProduct.image
+            }" class="card-img-top w-50" alt="productImg" style="width: 100%; height: 100%;">
+            </div>
+              <h5 class="card-header">${fakeStoreProduct.title}</h5>
+              <div class="card-body">
+              <ul class="list-group list-group-flush">
+              <li class="list-group-item"><strong>Product Order Summary</strong></li>
+              <li class="list-group-item"># of products: <strong>${
+                fakeStoreProduct.amount
+              }</strong></li>
+              <li class="list-group-item"> Total price: <strong>${(
+                fakeStoreProduct.price * fakeStoreProduct.amount
+              ).toFixed(2)}$</strong></li>
+              <li class="list-group-item"></li>
+            </ul>
+          <div class="cartObjButtons">
+            <button class="btn btn-success w-25" id="plusBtn"> + </button>
+            <button class="btn btn-warning w-25" id="minusBtn"> - </button>
+          </div>
       </div>
     </div>
     `;
@@ -82,15 +95,25 @@ async function renderProduct(cartArray) {
     sumObjDivIdElement.setAttribute("id", "sumObjDivId");
   }
 
-  sumObjDivIdElement.innerHTML = `
+  if (sum < 1) {
+    sumObjDivIdElement.innerHTML = `
   <div class="container mt-5">
-    <div class="row">
-      <h5 class="col"> Total: ${sum.toFixed(2)} $ </h5>
-      <a class="col btn btn-success" href="checkout.html" style="font-size: 1.4rem;"> Proceed to Checkout </a>
-      <button class="col btn btn-danger" id="removeAll" style="font-size: 1.4rem;"> Remove All </button>
+    <div class="center center-gap my-5">
+      <h6>  Your cart seems to be empty!</h6>
     </div>
   </div>
   `;
+  } else {
+    sumObjDivIdElement.innerHTML = `
+  <div class="container mt-5">
+    <div class="center center-gap my-5">
+      <h6> Total: ${sum.toFixed(2)} $ </h6>
+      <a class="btn btn-success" href="checkout.html">Proceed to Checkout</a>
+      <a class="btn btn-danger" id="removeAll">Remove All</a>
+    </div>
+  </div>
+  `;
+  }
   specificProductDiv.appendChild(sumObjDivIdElement);
 
   const removeAllBtn = sumObjDivIdElement.querySelector("#removeAll");

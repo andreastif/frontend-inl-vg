@@ -9,5 +9,4 @@ Frontend inl vg del
 - Uppdaterad färgskala
 - tillägg av cart.js och import av script därså är relevant
 - tilläg av cart.html
-
-Todo: confirmation page
+- bekräftelsesida

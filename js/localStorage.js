@@ -18,7 +18,7 @@ function saveCartArrayToLocalStorage(cartArray) {
   localStorage.setItem("cartArray", JSON.stringify(cartArray));
 }
 
-//Tar bort ett cartObject från cartArray (DELETE)
+//Minskar och/eller bort ett cartObject från cartArray (DELETE)
 export function removeObjectFromCartArray(cartObject) {
   const cartArray = getCartArrayFromLocalStorage();
   if (cartArray.find((cartobj) => cartobj.id === cartObject.id) != undefined) {
