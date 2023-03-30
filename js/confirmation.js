@@ -1,11 +1,7 @@
 "use strict";
 import { getProductById } from "./api.js";
 import {
-  saveCartObjectInCartArray,
-  removeObjectFromCartArray,
-  removeAllObjectsFromCartArray,
   displayCartContents,
-  getTotalItemsInCart,
   getCartArrayFromLocalStorage,
 } from "./localStorage.js";
 displayCartContents();
@@ -68,7 +64,7 @@ async function renderSucessMessage(cartArray) {
   }
 
   // Reset localStorage
-  // localStorage.clear();
+  localStorage.clear();
 }
 
 renderSucessMessage(cartArray);

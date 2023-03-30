@@ -1,9 +1,10 @@
+//template för cartObject som skall populera cartArray
 export let cartObject = {
   id: null,
   amount: null,
 };
 
-//Hämtar cartArray från localStorage (READ/CREATE)
+//Hämtar cartArray från localStorage (READ)
 export function getCartArrayFromLocalStorage() {
   if (localStorage.getItem("cartArray") != null) {
     return JSON.parse(localStorage.getItem("cartArray"));
@@ -22,11 +23,14 @@ function saveCartArrayToLocalStorage(cartArray) {
 export function removeObjectFromCartArray(cartObject) {
   const cartArray = getCartArrayFromLocalStorage();
   if (cartArray.find((cartobj) => cartobj.id === cartObject.id) != undefined) {
+    //Om produkten finns i cartarray
     if (cartArray.find((cartobj) => cartobj.id === cartObject.id).amount > 1) {
-      cartArray.find((cartobj) => cartobj.id === cartObject.id).amount -= 1;
+      // Om det finns mer än 1 produkt
+      cartArray.find((cartobj) => cartobj.id === cartObject.id).amount -= 1; //Minska med 1
       saveCartArrayToLocalStorage(cartArray);
       displayCartContents();
     } else {
+      //annars ta bort produkten
       const index = cartArray.findIndex((ele) => ele.id === cartObject.id);
       if (index === 0) {
         cartArray.shift();
@@ -37,6 +41,7 @@ export function removeObjectFromCartArray(cartObject) {
       displayCartContents();
     }
   } else {
+    //om produkten inte finns i cartarray
     saveCartArrayToLocalStorage(cartArray);
     displayCartContents();
   }
@@ -50,16 +55,18 @@ export function removeAllObjectsFromCartArray() {
   displayCartContents();
 }
 
-//Sparar cartObject i cartArray (UPDATE ARRAY) och returnerar arrayen
+//Sparar cartObject i cartArray (CREATE/UPDATE ARRAY) och returnerar arrayen
 export function saveCartObjectInCartArray(cartObject) {
   const cartArray = getCartArrayFromLocalStorage();
+
+  //UPDATE
   if (cartArray.find((cartobj) => cartobj.id === cartObject.id) != undefined) {
-    console.log("You should add the object with amount +1");
     cartArray.find((cartobj) => cartobj.id === cartObject.id).amount += 1;
     saveCartArrayToLocalStorage(cartArray);
     displayCartContents();
-  } else {
-    console.log("You should add the object with amount 1");
+  }
+  //CREATE
+  else {
     cartObject.amount = 1;
     cartArray.push(cartObject);
     saveCartArrayToLocalStorage(cartArray);
@@ -67,6 +74,7 @@ export function saveCartObjectInCartArray(cartObject) {
   }
 }
 
+//Skall anropas på varje HTML sida där cart-ikonen syns så att alla totala produkter i varukorgen kan ses
 export function displayCartContents() {
   const cartArray = getCartArrayFromLocalStorage();
   let sum = 0;
@@ -76,6 +84,7 @@ export function displayCartContents() {
   document.getElementById("lblCartCount").innerText = sum;
 }
 
+//Hjälpfunktion för att hämta de totala produkterna i local storage
 export function getTotalItemsInCart() {
   const cartArray = getCartArrayFromLocalStorage();
   let sum = 0;
